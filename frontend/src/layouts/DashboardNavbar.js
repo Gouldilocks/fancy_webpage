@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 // material
 import { alpha, styled } from '@mui/material/styles';
-import { Box, Stack, AppBar, Toolbar, IconButton, Switch } from '@mui/material';
+import { Box, Stack, AppBar, Toolbar, IconButton, Switch} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 // components
 import Iconify from '../components/Iconify';
 //
@@ -50,11 +51,12 @@ export default function DashboardNavbar({ onOpenSidebar, setDarkMode, darkMode }
   return (
     <RootStyle>
       <ToolbarStyle>
+
         <IconButton
           onClick={onOpenSidebar}
           sx={{ mr: 1, color: 'text.primary', display: { lg: 'none' } }}
         >
-          <Iconify icon="eva:menu-2-fill" />
+          <MenuIcon />
         </IconButton>
 
         <Box sx={{ flexGrow: 1 }} />

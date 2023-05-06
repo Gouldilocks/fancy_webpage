@@ -3,8 +3,10 @@ import { useEffect } from "react";
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Box, Link, Drawer, Typography } from '@mui/material';
+import { Box, Link, Drawer, Typography, IconButton } from '@mui/material';
 import { Avatar } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+
 // mocks
 // hooks
 import useResponsive from '../hooks/useResponsive';
@@ -15,7 +17,6 @@ import NavSection from '../components/NavSection';
 //
 import Iconify from '../components/Iconify';
 import { info } from '../info';
-// ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
 
@@ -34,19 +35,17 @@ const AccountStyle = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.grey[500_12]
 }));
 
-// ----------------------------------------------------------------------
-
 DashboardSidebar.propTypes = {
   isOpenSidebar: PropTypes.bool,
   onCloseSidebar: PropTypes.func,
   act: PropTypes.object
 };
 
-
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
   const { pathname } = useLocation();
-  const isDesktop = useResponsive('up', 'lg');
+  // const isDesktop = useResponsive('up', 'lg');
+  const isDesktop = false
   const sidebarConfig = [
     {
       title: 'Home',
@@ -80,6 +79,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
+
   const renderContent = (
     <Scrollbar
       sx={{
@@ -87,9 +87,15 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' }
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-        <Logo />
-      </Box>
+      {!isDesktop && (
+        <Box sx={{ px: 2.5, py: 2 }}>
+          <IconButton sx={{ color: 'text.primary' }} onClick={onCloseSidebar}>
+            <MenuIcon />
+          </IconButton>
+
+        </Box>
+      )}
+
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
@@ -115,33 +121,22 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
   return (
     <RootStyle>
-      {!isDesktop && (
-        <Drawer
-          open={isOpenSidebar}
-          onClose={onCloseSidebar}
-          PaperProps={{
-            sx: { width: DRAWER_WIDTH }
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
-
-      {isDesktop && (
-        <Drawer
-          open
-          variant="persistent"
-          PaperProps={{
-            sx: {
-              width: DRAWER_WIDTH,
-              bgcolor: 'background.default',
-              borderRightStyle: 'dashed'
-            }
-          }}
-        >
-          {renderContent}
-        </Drawer>
-      )}
+      <Drawer
+        open={isDesktop || isOpenSidebar}
+        variant={isDesktop ? 'persistent' : 'temporary'}
+        onClose={onCloseSidebar}
+        PaperProps={{
+          sx: {
+            width: DRAWER_WIDTH,
+            bgcolor: 'background.default',
+            borderRightStyle: 'dashed'
+          }
+        }}
+      >
+        {renderContent}
+      </Drawer>
     </RootStyle>
   );
 }
+
+
