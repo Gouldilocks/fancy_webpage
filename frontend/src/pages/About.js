@@ -6,7 +6,8 @@ import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Paper from '@mui/material/Paper';
 import { keyframes } from '@emotion/react';
-import Profile from '../static/pictureofme.jpeg';
+import Profile from '../static/looking_away.jpg';
+import {aboutMe} from '../data/aboutMe';
 
 const fadeIn = keyframes`
   0% {
@@ -36,7 +37,7 @@ const StyledAvatar = styled(Avatar)(({ theme }) => ({
 }));
 
 const About = () => {
-  const aboutMeText = `I'm a passionate software developer with experience in various web technologies. I enjoy creating beautiful, user-friendly, and scalable applications. When I'm not coding, I love to explore new places and learn about new cultures.`;
+  const aboutMeText = aboutMe.description;
 
   return (
     <Box
@@ -52,7 +53,7 @@ const About = () => {
           <AboutMeContainer elevation={6}>
             <StyledAvatar alt="Your Name" src={Profile} />
             <Typography variant="h4" align="center" gutterBottom>
-              Your Name
+              {aboutMe.name}
             </Typography>
             <Typography variant="body1" align="center">
               {aboutMeText}
